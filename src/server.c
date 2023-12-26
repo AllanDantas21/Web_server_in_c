@@ -2,13 +2,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct	Server server_constructor(int domain, int service, int protocol,
- u_long interface, int port, int backlog, void (*launch)(void))
+
+struct	Server server_constructor(int domain, int service, int protocol, u_long interface, int port, int backlog, void (*launch)(struct Server *server))
 {
 	struct Server server;
 
 	server.domain = domain;
-	server.service = servive;
+	server.service = service;
 	server.protocol = protocol;
 	server.interface = interface;
 	server.port = port;
@@ -25,7 +25,7 @@ struct	Server server_constructor(int domain, int service, int protocol,
 		exit(1);
 	}
 
-	if(bind(server.socket, (struct sockaddr *)&server.addres, sizeof(server.addres)) < 0)
+	if(bind(server.socket, (struct sockaddr *)&server.address, sizeof(server.address)) < 0)
 	{
 		perror("failed to bind socket..\n");
 		exit(1);
@@ -33,8 +33,8 @@ struct	Server server_constructor(int domain, int service, int protocol,
 
 	if (listen(server.socket, server.backlog) < 0)
 	{
-		perror("failed to start listening...\n";
-		exit(1));
+		perror("failed to start listening...\n");
+		exit(1);
 	}
 	server.launch = launch;
 	return (server);
