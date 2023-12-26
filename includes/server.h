@@ -14,6 +14,7 @@ struct Server
 	int port;
 	int backlog;
 
+	int	socket;
 	struct	sockaddr_in address;
 	void	(*launch)(void);
 };
